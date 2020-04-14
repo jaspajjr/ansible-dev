@@ -1,8 +1,7 @@
 - hosts: all
   name: Setup Dev Env
-  tasks:
-    - name: Install tools
-      apt: name="{{item}}" state=present
-      with_items:
-        - tmux
-
+  become: yes
+  apt:
+    name: [
+      "tmux"
+    ]
