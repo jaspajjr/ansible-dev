@@ -1,8 +1,11 @@
 - hosts: all
+  name: Setup Dev Env
+
   tasks:
-    name: Setup Dev Env
-    become: yes
-    apt:
-      name: [
-        "tmux"
-      ]
+    - name: Install tools
+      apt:
+        name: [
+          "tmux"
+        ]
+      with_items:
+        - tmux
