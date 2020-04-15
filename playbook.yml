@@ -149,4 +149,12 @@
       tags:
         - apt
         - docker
+
+    - name: "Clean up apt"
+      apt:
+        autoclean: yes
+        autoremove: yes
+      tags:
+        - apt
+        - housekeeping
 ...
