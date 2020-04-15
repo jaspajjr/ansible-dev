@@ -3,6 +3,9 @@
   hosts: all
   gather_facts: true
   become: yes
+  vars:
+    - user: "phil"
+    - dotfiles_src: "https://github.com/phlcrny/dotfiles.git"
 
   tasks:
     - name: Base applications
@@ -20,8 +23,36 @@
         - apt
         - core_apps
 
+    - name: "Set-up user"
+      user:
+        name: "{{ user }}"
+        state: present
+        groups: sudo
+        append: yes
+        home: /home/{{{ user }}}
+        shell: /bin/bash
+      tags:
+        - user
+
+    - name: "Clone dotfiles"
+      git:
+        repo: "{{ dotfiles_src }}"
+        dest: "/home/{{ user }}/dotfiles"
+        version: master
+        update: yes
+      tags:
+        - dotfiles
+
+    - name: "Own dotfiles"
+      file:
+        path: "/home/{{ user }}/dotfiles"
+        recurse: yes
+        owner: "{{ user }}"
+        group: "{{ user }}"
+      tags:
+        - dotfiles
+
     - name: "Install Ansible pre-reqs"
-      become: yes
       apt:
         name: software-properties-common
         state: present
@@ -40,7 +71,6 @@
         - ansible
 
     - name: "Add Ansible repository"
-      become: yes
       apt_repository:
         repo: ppa:ansible/ansible
         state: present
@@ -51,7 +81,6 @@
         - ansible
 
     - name: "Update apt cache"
-      become: yes
       apt:
         update_cache: yes
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
@@ -60,7 +89,6 @@
         - ansible
 
     - name: "Install ansible"
-      become: yes
       apt:
         name: [
           "ansible",
@@ -73,7 +101,6 @@
         - ansible
 
     - name: "Install docker pre-reqs"
-      become: yes
       apt:
         name: [
           "apt-transport-https",
@@ -91,7 +118,6 @@
         - docker
 
     - name: "Install docker repository key"
-      become: yes
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         id: "9DC858229FC7DD38854AE2D88D81803C0EBFCD88"
@@ -102,7 +128,6 @@
         - docker
 
     - name: "Install docker repository"
-      become: yes
       apt_repository:
           repo: "deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }} stable"
           state: present
@@ -113,7 +138,6 @@
         - docker
 
     - name: "Install docker"
-      become: yes
       apt:
         name: [
           "docker-ce",
