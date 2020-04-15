@@ -146,9 +146,35 @@
         ]
         state: present
       when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+      register: docker_install
       tags:
         - apt
         - docker
+
+    - name: "Add user to docker group"
+      user:
+        name: "{{ user }}"
+        groups: docker
+        append: yes
+        state: present
+      when: docker_install
+      tags:
+        - docker
+        - user
+
+    - name: "Schedule docker system prune"
+      cron:
+        name: "Docker_prune"
+        job: "docker system prune -f"
+        state: present
+        minute: "0"
+        hour: "20"
+        day: "*"
+        month: "*"
+      tags:
+        - cron
+        - docker
+        - housekeeping
 
     - name: "Clean up apt"
       apt:
