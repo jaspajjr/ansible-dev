@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "oderwat.indent-rainbow",
+        "redhat.vscode-yaml",
+        "vscoss.vscode-ansible"
+    ]
+}
