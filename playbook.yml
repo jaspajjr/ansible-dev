@@ -183,4 +183,17 @@
       tags:
         - apt
         - housekeeping
+
+    - name: "Schedule ansible pull"
+      cron:
+        name: ansible-pull
+        job: >
+          "ansible-pull playbook.yml -U https://github.com/jaspajjr/ansible-dev.git
+          -d /etc/ansible-pull-config/
+          -e "user={{ user }} dotfiles_src={{ dotfiles_src }}"
+          -c="local"
+          --clean"
+      tags:
+        - cron
+        - ansible-pull
 ...
