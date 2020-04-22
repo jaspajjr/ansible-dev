@@ -6,13 +6,13 @@
 1. Clone this repository and ```cd``` to it
 
 ```bash
-# To run with default variables
+# To run it with default variables
 ansible-playbook playbook.yml
 
 # To see what it'll do
 ansible-playbook playbook.yml --list-tasks --list-hosts
 
-# To replace default vars
+# To run it with custom values - recommended
 ansible-playbook playbook.yml -e "user=JohnDoe dotfiles_src=https://github.com/JohnDoe/dotfiles.git"
 ```
 
