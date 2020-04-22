@@ -193,6 +193,11 @@
           -e "user={{ user }} dotfiles_src={{ dotfiles_src }}"
           -c="local"
           --clean"
+        state: present
+        minute: "0"
+        hour: "18"
+        day: "*"
+        month: "*"
       tags:
         - cron
         - ansible-pull
