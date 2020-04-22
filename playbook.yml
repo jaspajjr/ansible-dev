@@ -4,8 +4,8 @@
   gather_facts: true
   become: yes
   vars:
-    - user: "phil"
-    - dotfiles_src: "https://github.com/phlcrny/dotfiles.git"
+    - user: "johndoe"
+    - dotfiles_src: "https://github.com/thoughtbot/dotfiles.git"
 
   tasks:
     - name: Base applications
