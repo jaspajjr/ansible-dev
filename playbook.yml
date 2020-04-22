@@ -157,7 +157,7 @@
         groups: docker
         append: yes
         state: present
-      when: docker_install
+      when: docker_install is succeeded
       tags:
         - docker
         - user
