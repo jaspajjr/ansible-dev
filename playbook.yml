@@ -7,7 +7,7 @@
     - user: "johndoe"
     - dotfiles_src: "https://github.com/thoughtbot/dotfiles.git"
 
-  tasks:
+  pre_tasks:
     - name: Base applications
       apt:
         name: [
@@ -22,7 +22,11 @@
       tags:
         - apt
         - core_apps
+    
+  roles:
+    - role: gantsign.visual-studio-code
 
+  tasks:
     - name: "Set-up user"
       user:
         name: "{{ user }}"
